@@ -1,5 +1,12 @@
 .env
 .env.local
-./terraform
+.terraform/
 *.tfstate
 *.tfstate.*
+*.tfstate.backup
+terraform.tfvars
+*.auto.tfvars
+crash.log
+crash.*.log
+override.tf
+override.tf.json
