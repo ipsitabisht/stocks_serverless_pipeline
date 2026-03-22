@@ -1,4 +1,4 @@
 .env
 .env.local
 ./terraform
-.terraform.lock.hcl
+./terraform.lock.hcl
