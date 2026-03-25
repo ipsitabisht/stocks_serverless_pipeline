@@ -1,8 +1,11 @@
 .env
 .env.local
+lambda_package/
+build/
 .terraform/
 *.tfstate
 *.tfstate.*
+*.tfvars
 *.tfstate.backup
 terraform.tfvars
 *.auto.tfvars

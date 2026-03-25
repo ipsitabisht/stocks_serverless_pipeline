@@ -2,12 +2,14 @@ from massive import RESTClient
 import os
 import time
 from dotenv import load_dotenv
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 load_dotenv()
 
 massive_api_key = os.getenv("MASSIVE_API_KEY")
 watchlists = os.getenv("WATCHLIST").split(",")
-DATE = "2026-03-20"
+DATE = '2026-03-22'
 
 
 def fetch_with_backoff(client, ticker, date, max_retries=5):
