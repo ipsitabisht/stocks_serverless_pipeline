@@ -4,7 +4,7 @@ set -e
 mkdir -p lambda_package build/deps
 
 # Copy all handlers — no edits needed when adding new Lambdas
-cp backend/ingest_massive/*.py lambda_package/
+find backend -name "*.py" -not -path "*/test/*" | xargs -I{} cp {} lambda_package/
 
 # Only reinstall deps if requirements.txt changed since last build
 DEPS_STAMP=build/.deps_installed

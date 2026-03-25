@@ -41,7 +41,27 @@ resource "aws_scheduler_schedule" "daily_stock_ingest" {
     mode = "OFF"
   }
 
-  schedule_expression          = "rate(15 minutes)"
+  schedule_expression          = "cron(0 23 ? * MON-FRI *)"
+  schedule_expression_timezone = "America/New_York"
+
+  target {
+    arn      = aws_lambda_function.ingest_lambda.arn
+    role_arn = aws_iam_role.scheduler_invoke_lambda_role.arn
+
+    input = jsonencode({})
+  }
+}
+
+
+resource "aws_scheduler_schedule" "daily_stock_ingest-9pm" {
+  name        = "daily-stock-ingest-9pm"
+  description = "Runs stock mover ingestion Lambda after market close"
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression          = "cron(0 21 ? * MON-FRI *)"
   schedule_expression_timezone = "America/New_York"
 
   target {

@@ -19,11 +19,11 @@ def to_json_safe(item):
 def lambda_handler(event, context):
     # read from dynamo
     response = table.scan()
-    items = table.get_items('Items', [])
+    items = response.get('Items', [])
     # order by dates (recent-oldest)
     items.sort(key=lambda x: x["date"], reverse=True)
-    items = items[:7]
-    
+    latest = items[:7]
+    print("Items from the last couple days: ", items)
     # return as the response 
     return {
         "statusCode": 200,

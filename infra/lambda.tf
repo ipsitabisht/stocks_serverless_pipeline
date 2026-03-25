@@ -37,4 +37,22 @@ resource "aws_lambda_function" "ingest_week_lambda" {
   }
 }
 
+resource "aws_lambda_function" "retrieve_week_lambda" {
+  function_name = "retrieve_week_lambda"
+  role          = aws_iam_role.ingest_lambda_role.arn
+  handler       = "retrieve_mover_handler.lambda_handler"
+  runtime       = "python3.12"
+
+  filename         = data.archive_file.ingest_lambda_zip.output_path
+  source_code_hash = data.archive_file.ingest_lambda_zip.output_base64sha256
+
+  timeout = 300
+
+  environment {
+    variables = {
+      TABLE_NAME      = aws_dynamodb_table.stocker_movers.name
+    }
+  }
+}
+
 
