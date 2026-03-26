@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API_URL = "https://50k5cfhwzj.execute-api.us-east-1.amazonaws.com/movers";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function App() {
   const [items, setItems] = useState([]);
