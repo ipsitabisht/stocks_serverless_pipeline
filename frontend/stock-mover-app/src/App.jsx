@@ -34,7 +34,7 @@ export default function App() {
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <h1 style={styles.title}>Weekly Stock Movers</h1>
+        <h1 style={styles.title}>This Week's Stock Movers</h1>
         <p style={styles.subtitle}>Last 7 Day Winners</p>
 
         {loading && <p style={styles.message}>Loading winners...</p>}
