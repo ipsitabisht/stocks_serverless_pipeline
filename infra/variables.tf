@@ -8,8 +8,6 @@ variable "massive_api_key" {
   sensitive = true
 }
 
-variable "bucket_name_primary" {
+variable "stock_mover_bucket_name" {
   type      = string
-  description = "Name of Bucket"
-  defualt = "s3site"
 }

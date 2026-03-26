@@ -3,7 +3,7 @@ resource "aws_apigatewayv2_api" "mover_api" {
   protocol_type = "HTTP"
 
   cors_configuration {
-    allow_origins = ["http://localhost:5173"]
+    allow_origins = ["http://localhost:5173", "http://localhost:5174", "https://d3kikyfo6yfcer.cloudfront.net"]
     allow_methods = ["GET", "OPTIONS"]
     allow_headers = ["Content-Type"]
   }
