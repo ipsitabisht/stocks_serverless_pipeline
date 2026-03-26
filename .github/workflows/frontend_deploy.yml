@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "frontend/**"
+      - "stock-mover-app/**"
       - ".github/workflows/deploy-frontend.yml"
 
 permissions:
@@ -15,7 +15,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     defaults:
       run:
         working-directory: frontend
