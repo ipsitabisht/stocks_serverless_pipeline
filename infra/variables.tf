@@ -7,3 +7,9 @@ variable "massive_api_key" {
   type      = string
   sensitive = true
 }
+
+variable "bucket_name_primary" {
+  type      = string
+  description = "Name of Bucket"
+  defualt = "s3site"
+}

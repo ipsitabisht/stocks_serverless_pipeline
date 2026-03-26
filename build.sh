@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-
+rm -rf lambda_package
 mkdir -p lambda_package build/deps
 
 # Copy all handlers — no edits needed when adding new Lambdas
