@@ -1,16 +1,14 @@
-# React + Vite
+# Stock Movers Frontend Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This page displays the last 7 movers of the market. 
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Environment set up
 
-## React Compiler
+# Set up the .env file
+''' VITE_API_URL = <name-of-your-api-endpoint>'''
+## Install node and npm packages 
+''' npm install '''
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Autodeploy changes to frontend 
+Github Action workflow for updating S3 build files are integrated into this repo. At each push, any change to the frontend will be deployed automatically, updating the s3 site and invalidating the cloudfront cache
