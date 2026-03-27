@@ -35,7 +35,7 @@ export default function App() {
   return (
     <div className="page">
       <div className="card">
-        <h1 className="title">This Week's Stock Movers</h1>
+        <h1 className="title">This Week's Stock Movers:</h1>
         <p className="subtitle">Last 7 Day Winners</p>
 
         {loading && <p className="message">Loading winners...</p>}
