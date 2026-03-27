@@ -35,6 +35,21 @@
   color: #444;
 }
 
+.refresh-btn {
+  margin-left: 12px;
+  padding: 4px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #166534;
+  color: #ffffff;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.refresh-btn:hover {
+  background-color: #14532d;
+}
+
 .status-banner {
   border-radius: 8px;
   padding: 10px 16px;
@@ -93,4 +108,11 @@
 .negative {
   color: #b42318;
   font-weight: 600;
+}
+
+.bar-chart{
+  padding: 25px;
+  width: max-content;
+  height: max-content;
+
 }

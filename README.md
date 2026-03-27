@@ -85,9 +85,7 @@ VITE_API_URL=https://<your-aws-api-id>.execute-api.<your-aws-region>.amazonaws.c
 1. Next, cd into the ```infra/``` directory and execute ```terraform init``` then ```terraform apply```
 2. Your infrastructure should be set up and ready to use! 
 
-
 ## Frontend Hosting
-
 Access the page here!: https://d3kikyfo6yfcer.cloudfront.net/
 
 ## Challenges and Tradeoffs
@@ -101,3 +99,14 @@ Access the page here!: https://d3kikyfo6yfcer.cloudfront.net/
 3. Setting up Automatic Deployments for Frontend hosted on S3
 - When setting up the the frontend, it was convenient seeing the updates on local host. However when it came to deploying and dumping all the build files into S3, that is where the process became clunky and manual. After each update, if I wanted my S3 hosted site to display the changes made locally, I would need to rebuild using ```npm run dev``` then use the AWS CLI to dump the ```dist/``` file content into the S3 bucket and after incorporating CloudFront Distribution to the workflow, I needed to also clear its cache through CLI. This is not the best developer experience for making a small update on the frontend. Thus, I looked into using Github Action workflows to see how i can automatically do this whole process in one go after creating a change in the repo. The challenge was in understanding how to hook up everything and ensuring the right accesses are given but after that the set up and process initialization was smooth. 
 
+
+## Future Improvements
+- Automated Testing within CI/CD pipeline
+    - Check for errors
+    - Run unit, integration, and end-2-end tests at each commit / PR
+- Data Visualizations
+    - Incorporate more data from each ticker to show weekly summaries 
+    - AI Summary per-ticker performance 
+- Pagination for API 
+    - Incorporate date ranges when filtering with API movers endpoint 
+    - Can retrieve based on any time interval instead of restricting to last 7 days
