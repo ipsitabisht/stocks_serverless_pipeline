@@ -53,5 +53,3 @@ resource "aws_lambda_function" "retrieve_week_lambda" {
     }
   }
 }
-
-

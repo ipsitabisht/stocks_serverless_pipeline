@@ -17,13 +17,17 @@ WATCHLIST = os.environ["WATCHLIST"].split(",")
 
 MASSIVE_BASE_URL = "https://api.massive.com/v1/open-close"
 
-
+"""
+If request does not include a date, use the last available market date to ingest
+Returns:
+    Date String in YYYY-MM-DD format
+"""
 def get_last_completed_market_date():
-    now_et = datetime.now(ZoneInfo("America/New_York"))
-    candidate = now_et.date()
+    now_pst = datetime.now(ZoneInfo("America/Los_Angeles"))
+    candidate = now_pst.date()
 
     # Use previous trading day until after after-hours end
-    if now_et.hour < 20:
+    if now_pst.hour < 21:
         candidate = candidate - timedelta(days=1)
 
     while candidate.weekday() >= 5:  # Sat/Sun
@@ -39,7 +43,7 @@ Args:
 Returns:
     Response JSON dict
 """
-def fetch_with_backoff(ticker, date, max_retries=5):
+def fetch_with_backoff(ticker, date, max_retries=3):
     url = f"{MASSIVE_BASE_URL}/{ticker}/{date}"
     params = {"adjusted": "true", "apiKey": API_KEY}
     delay = 15
@@ -58,17 +62,18 @@ def fetch_with_backoff(ticker, date, max_retries=5):
             delay *= 2
             continue
 
-        # fail fast on 403 failures
+        # fail fast on 403 failures - Means Massive is not permitting the request
         raise Exception(
             f"Massive request failed for ticker={ticker}, date={date}, "
             f"status={response.status_code}, body={response.text[:200]}"
         )
 """
 Lambda handler for the stock mover detector.
-
 Args:
     event: Event object
     context: Context object
+Returns: 
+    Response object containing the winner ticker details
 """
 def lambda_handler(event, context):
     date = event.get("date") or get_last_completed_market_date()

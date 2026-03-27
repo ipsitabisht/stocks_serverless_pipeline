@@ -34,8 +34,7 @@ resource "aws_iam_role_policy" "ingest_lambda_policy" {
       {
         Effect = "Allow"
         Action = [
-          "dynamodb:PutItem",
-          "dynamodb:Scan"
+          "dynamodb:PutItem"
         ]
         Resource = aws_dynamodb_table.stocker_movers.arn
       },

@@ -24,6 +24,9 @@ def to_json_safe(item):
         "closing_price": float(item["closing_price"]),
     }
 
+"""
+If the DynamoDB scan fails, attempt 3 retries before raising an error
+"""
 def scan_with_retry(max_retries=3):
     delay = 1
     for attempt in range(max_retries):
@@ -38,6 +41,10 @@ def scan_with_retry(max_retries=3):
             else:
                 raise
 
+"""
+Scan the Stock Mover Table, retrieve and filter to get the last 7 items, order them by recency
+Return the array of latest 7 items
+"""
 def lambda_handler(event, context):
     response = scan_with_retry()
     items = response.get('Items', [])
@@ -47,10 +54,16 @@ def lambda_handler(event, context):
     print("Items from the last couple days: ", items)
     return {
         "statusCode": 200,
+        "meta": {
+            "source": "DynamoDB",
+            "sort_order": "date_desc"
+        },
         "headers": {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET, OPTIONS",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Cache-Control": "public, max-age=300",
+            "X-Data-Source": "DynamoDB"
         },
         "body": json.dumps({
             "items": [to_json_safe(item) for item in latest]

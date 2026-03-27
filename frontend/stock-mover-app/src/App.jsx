@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Cell, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, LabelList, ResponsiveContainer } from "recharts";
 
 import "./App.css";
 
@@ -20,20 +20,29 @@ const CHART_MARGIN = { top: 10, right: 20, left: 20, bottom: 30 };
 const XAXIS_LABEL = { value: "Date", position: "insideBottom", offset: -20 };
 const YAXIS_LABEL = { value: "% Change", angle: -90, position: "insideLeft", offset: 10 };
 
+
+/**
+ * This method indicates to user whether the current day's market winner is available or not.
+ * @returns A message containing a boolean value. True if the current time is after 9pm PST, False if not
+ */
 function getTodayDataStatus() {
   const now = new Date();
   const pstTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
   const hour = pstTime.getHours();
-  const day = pstTime.getDay(); // 0=Sun, 6=Sat
+  const day = pstTime.getDay();
 
   const isWeekend = day === 0 || day === 6;
-  const isAfterClose = hour >= 22;
+  const isAfterClose = hour >= 21;
 
   if (isWeekend) {
     return { available: false, message: "Markets are closed on weekends. Showing last available trading day." };
   }
+  const hour12 = hour % 12 || 12;
+  const ampm = hour < 12 ? "AM" : "PM";
+  const minutes = String(pstTime.getMinutes()).padStart(2, "0");
+
   if (!isAfterClose) {
-    return { available: false, message: `Today's data is not yet available. Updates after 9 PM PST (currently ${hour}:${String(pstTime.getMinutes()).padStart(2, "0")} PM PST).` };
+    return { available: false, message: `Today's data is not yet available. Updates after 9:00 PM PST (currently ${hour12}:${minutes} ${ampm} PST).` };
   }
   return { available: true, message: "Today's data is available." };
 }
@@ -45,6 +54,9 @@ export default function App() {
   const [refreshKey, setRefreshKey] = useState(0);
   const dataStatus = getTodayDataStatus();
 
+  /**
+   * Automatically fetch the last 7 day winners
+   */
   useEffect(() => {
     async function fetchMovers() {
       try {
@@ -78,15 +90,11 @@ export default function App() {
         
 
         {loading && <p className="message"><CircularProgress /></p>}
-
         {error && (
           <div className="error-box">
             <strong>Error:</strong> {error}
           </div>
         )}
-
-
-
         {!loading && !error && items.length === 0 && (
           <p className="message">No winner data found yet.</p>
         )}
@@ -95,11 +103,9 @@ export default function App() {
           <div className="table-wrapper">
             <div className={`status-banner ${dataStatus.available ? "status-available" : "status-unavailable"}`}>
               {dataStatus.message}
-              {dataStatus.available && (
-                <button className="refresh-btn" type="button" onClick={() => setRefreshKey((k) => k + 1)}>
-                  Refresh
-                </button>
-              )}
+              <button className="refresh-btn" type="button" onClick={() => setRefreshKey((k) => k + 1)}>
+                Refresh
+              </button>
             </div>
             <table className="table">
               <thead>
@@ -129,13 +135,21 @@ export default function App() {
                 })}
               </tbody>
             </table>
+            <div className="chart-legend">
+              {[...new Set(items.map((i) => i.ticker))].map((ticker) => (
+                <span key={ticker} className="chart-legend-item">
+                  <span className="chart-legend-dot" style={{ backgroundColor: TICKER_COLORS[ticker] ?? "#8884d8" }} />
+                  {ticker}
+                </span>
+              ))}
+            </div>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={[...items].reverse()} margin={CHART_MARGIN}>
                 <XAxis dataKey="date" label={XAXIS_LABEL} />
                 <YAxis label={YAXIS_LABEL} />
                 <Tooltip formatter={(value) => [`${value.toFixed(2)}%`, "% Change"]} />
-                <Legend verticalAlign="top" />
                 <Bar dataKey="percent_change" name="% Change">
+                  <LabelList dataKey="ticker" position="top" />
                   {[...items].reverse().map((item) => (
                     <Cell key={item.date} fill={TICKER_COLORS[item.ticker] ?? "#8884d8"} />
                   ))}

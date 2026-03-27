@@ -1,0 +1,4 @@
+massive_api_key = "replace-me"
+stock_mover_bucket_name = "replace-me"
+github_owner = "replace-me"
+github_repo = "replace-me"

@@ -33,26 +33,6 @@ resource "aws_iam_role_policy" "scheduler_invoke_lambda_policy" {
   })
 }
 
-resource "aws_scheduler_schedule" "daily_stock_ingest" {
-  name        = "daily-stock-ingest"
-  description = "Runs stock mover ingestion Lambda after market close"
-
-  flexible_time_window {
-    mode = "OFF"
-  }
-
-  schedule_expression          = "cron(0 23 ? * MON-FRI *)"
-  schedule_expression_timezone = "America/New_York"
-
-  target {
-    arn      = aws_lambda_function.ingest_lambda.arn
-    role_arn = aws_iam_role.scheduler_invoke_lambda_role.arn
-
-    input = jsonencode({})
-  }
-}
-
-
 resource "aws_scheduler_schedule" "daily_stock_ingest_9pm_pst" {
   name        = "daily-stock-ingest-9pm-pst"
   description = "Runs stock mover ingestion Lambda at 9pm PST Mon-Fri"
@@ -69,41 +49,5 @@ resource "aws_scheduler_schedule" "daily_stock_ingest_9pm_pst" {
     role_arn = aws_iam_role.scheduler_invoke_lambda_role.arn
 
     input = jsonencode({})
-  }
-}
-
-resource "aws_scheduler_schedule" "daily_stock_ingest_11pm_pst" {
-  name        = "daily-stock-ingest-11pm-pst"
-  description = "Runs stock mover ingestion Lambda at 11pm PST Mon-Fri"
-
-  flexible_time_window {
-    mode = "OFF"
-  }
-
-  schedule_expression          = "cron(0 23 ? * MON-FRI *)"
-  schedule_expression_timezone = "America/Los_Angeles"
-
-  target {
-    arn      = aws_lambda_function.ingest_lambda.arn
-    role_arn = aws_iam_role.scheduler_invoke_lambda_role.arn
-
-    input = jsonencode({})
-  }
-}
-
-resource "aws_scheduler_schedule" "test_run_now" {
-  name = "test-run-now"
-
-  flexible_time_window {
-    mode = "OFF"
-  }
-
-  schedule_expression          = "at(2026-03-24T14:25:00)"
-  schedule_expression_timezone = "America/Los_Angeles"
-
-  target {
-    arn      = aws_lambda_function.ingest_lambda.arn
-    role_arn = aws_iam_role.scheduler_invoke_lambda_role.arn
-    input    = jsonencode({})
   }
 }
