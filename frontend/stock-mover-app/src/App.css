@@ -35,6 +35,25 @@
   color: #444;
 }
 
+.status-banner {
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.status-available {
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.status-unavailable {
+  background-color: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
 .error-box {
   background-color: #fef3f2;
   color: #b42318;
@@ -56,6 +75,7 @@
 .th {
   text-align: left;
   padding: 12px;
+  text-align: center;
   border-bottom: 2px solid #e5e7eb;
   background-color: #fafafa;
 }

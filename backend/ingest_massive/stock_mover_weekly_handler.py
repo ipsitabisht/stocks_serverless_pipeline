@@ -20,11 +20,11 @@ MASSIVE_BASE_URL = "https://api.massive.com/v1/open-close"
 
 def get_last_7_trading_days():
     """Return the last 7 weekdays (Mon-Fri) as YYYY-MM-DD strings, most recent first."""
-    now_et = datetime.now(ZoneInfo("America/New_York"))
-    candidate = now_et.date()
+    now_pst = datetime.now(ZoneInfo("America/Los_Angeles"))
+    candidate = now_pst.date()
 
     # Don't include today if market hasn't closed yet
-    if now_et.hour < 20:
+    if now_pst.hour < 21:
         candidate = candidate - timedelta(days=1)
 
     trading_days = []
