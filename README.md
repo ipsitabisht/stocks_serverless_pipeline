@@ -136,19 +136,19 @@ Access the page here!: https://d3kikyfo6yfcer.cloudfront.net/
 
 ## Future Improvements
 - Full CI/CD pipeline
-    - Run integration, unit, and end-2-end tests at each push
-    - Package Lambda functions automatically 
-    - Validate Terraform formatting and configuration
+  - Run integration, unit, and end-2-end tests at each push
+  - Package Lambda functions automatically 
+  - Validate Terraform formatting and configuration
 - Testing
-Currently the tests for lambda ingestion + retrieval are done with shell scripts 
+  - Currently the tests for lambda ingestion + retrieval are done with shell scripts 
   - Unit
   - Integration
   - End-2-end tests
 - Data Visualizations
-Current visuals only use the data from the stock winners. An improvement would be incorporating more data for a comprehensive overview.
-    - Incorporate more data from each ticker to show weekly summaries 
-    - AI Summary for per-ticker performance 
-    - Forecasting for stock perforamnce
+  - Current visuals only use the data from the stock winners. An improvement would be incorporating more data for a comprehensive overview.
+  - Incorporate more data from each ticker to show weekly summaries 
+  - AI Summary for per-ticker performance 
+  - Forecasting for stock perforamnce
 - API improvements
-    - Pagination
-    - Retrieve based on any date interval instead of restricting to last 7 days
+  - Pagination
+  - Retrieve based on any date interval instead of restricting to last 7 days
